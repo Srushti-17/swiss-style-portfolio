@@ -1,0 +1,48 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@400;600;700&display=swap');
+@import 'tailwindcss';
+
+@theme {
+  --color-bg-primary: #050505;
+  --color-bg-secondary: #111111;
+  --color-white-primary: #F5F5F2;
+  --color-white-pure: #FFFFFF;
+  --color-text-secondary: #B8B8B8;
+  --color-border: #555555;
+
+  --font-archivo: 'Archivo Black', sans-serif;
+  --font-inter: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+  --font-caveat: 'Caveat', cursive;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #050505;
+  color: #F5F5F2;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: #050505;
+}
+::-webkit-scrollbar-thumb {
+  background: #555555;
+}
+
+.font-archivo { font-family: 'Archivo Black', sans-serif; }
+.font-mono-ibm { font-family: 'IBM Plex Mono', monospace; }
+.font-inter { font-family: 'Inter', sans-serif; }
+.font-caveat { font-family: 'Caveat', cursive; }

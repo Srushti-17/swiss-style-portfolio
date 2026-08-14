@@ -1,0 +1,10 @@
+{
+  "description": "A minimalist portfolio site showcasing a software developer's skills, experience, projects, and contact info with a distinctive Swiss editorial design.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}
