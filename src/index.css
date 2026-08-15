@@ -31,6 +31,26 @@ body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
+.education-card {
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+  cursor: pointer;
+}
+
+.education-card-left {
+  transform: translateX(-250px) rotate(-1.5deg);
+}
+
+.education-card-left:hover {
+  transform: translateX(-250px) translateY(-6px) rotate(0deg);
+}
+
+.education-card-right {
+  transform: translateX(45px) rotate(-1.5deg);
+}
+
+.education-card-right:hover {
+  transform: translateX(45px) translateY(-6px) rotate(0deg);
+}
 
 ::-webkit-scrollbar {
   width: 4px;

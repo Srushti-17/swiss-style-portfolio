@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react'
+import './index.css'
 import profile from './assets/hero section.jpeg'
+import resume from './assets/Srushti_Pillare_SDE.pdf'
 import profile2 from './assets/hero5.jpeg'
 
 // ── SVG Doodles ──────────────────────────────────────────────────────────────
@@ -211,7 +213,7 @@ function Nav() {
       <span style={{ fontFamily: 'IBM Plex Mono', fontWeight: 600, fontSize: '14px', letterSpacing: '0.08em', color: '#F5F5F2' }}>
         SRUSHTI PILLARE
       </span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '32px', position: 'relative' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '32px', marginRight: '350px', position: 'relative' }}>
         {/* Curved arrow doodle pointing toward ABOUT — first link */}
         <div style={{ position: 'absolute', left: '-36px', top: '-22px', opacity: 0.55, pointerEvents: 'none' }}>
           <CurvedArrow color="#B8B8B8" size={32} rotate={20} />
@@ -225,12 +227,12 @@ function Nav() {
               fontSize: '11px',
               letterSpacing: '0.12em',
               // color: '#B8B8B8',
-              color: 'white',
+              color: '#F5F5F2',
               textDecoration: 'none',
               transition: 'color 0.2s',
             }}
             onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#F5F5F2')}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#B8B8B8')}
+            onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#F5F5F2')}
           >
             {item}
           </a>
@@ -255,7 +257,7 @@ function Hero() {
         position: 'relative',
       }}
     >
-      {/* Vol tag */}
+      {/* Vol tag
       <div
         style={{
           position: 'absolute',
@@ -269,7 +271,7 @@ function Hero() {
         }}
       >
         VOL. 01 / 2026
-      </div>
+      </div> */}
 
       {/* Left vertical sidebar — lives outside the padded grid flow */}
       <div
@@ -307,6 +309,7 @@ function Hero() {
           <a
             key={label}
             href={href}
+            target="_blank"
             style={{
               fontFamily: 'IBM Plex Mono',
               fontSize: '9px',
@@ -366,6 +369,23 @@ function Hero() {
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', position: 'relative' }}>
           <a
+            href={resume}
+            target='_blank'
+            style={{
+              fontFamily: 'IBM Plex Mono',
+              fontSize: '12px',
+              letterSpacing: '0.12em',
+              color: '#F5F5F2',
+              border: '0.1px solid #F5F5F2',
+              padding: '2px 8px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '8px',
+            }}
+          >
+            DOWNLOAD RESUME
+          </a>
+          <a
             href="#work"
             style={{
               fontFamily: 'IBM Plex Mono',
@@ -381,9 +401,6 @@ function Hero() {
           >
             EXPLORE MY WORK →
           </a>
-          <div style={{ position: 'absolute', right: '-60px', top: '-20px', opacity: 0.8 }}>
-            <Sparkle color="#F5F5F2" size={28} />
-          </div>
           <div style={{ position: 'absolute', left: '-10px', bottom: '-50px' }}>
             <BrowserWindow color="#555555" size={36} />
           </div>
@@ -399,9 +416,9 @@ function Hero() {
             alt="Architectural structure, black and white"
             style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%) contrast(1.1)', display: 'block' }}
           />
-          <div style={{ position: 'absolute', top: '16px', right: '16px' }}>
+          {/* <div style={{ position: 'absolute', top: '16px', right: '16px' }}>
             <Lightbulb color="#F5F5F2" size={32} />
-          </div>
+          </div> */}
         </div>
         <div
           style={{
@@ -469,10 +486,10 @@ function About() {
         </h2>
         <p style={{ fontFamily: 'Inter', fontSize: '15px', lineHeight: 1.8, color: '#B8B8B8', maxWidth: '520px', marginBottom: '20px' }}>
           I'm a software developer who genuinely enjoys the process of making things. Whether it's
-          a clean API, an intuitive UI, or a pipeline that hums—I care about the craft behind every layer.
+          a clean API, an intuitive UI, or a pipeline that hums, I care about the craft behind every layer.
         </p>
         <p style={{ fontFamily: 'Inter', fontSize: '15px', lineHeight: 1.8, color: '#B8B8B8', maxWidth: '520px', marginBottom: '36px' }}>
-          Currently finishing my B.Tech in AI, I've been building real products alongside my studies—
+          Recently graduated from B.Tech in AI, I've been building real products alongside my studies—
           shipping features, debugging edge cases, and growing through every collaboration.
         </p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
@@ -484,13 +501,14 @@ function About() {
       </div>
 
       {/* Right — rotated index card */}
-      <div style={{ position: 'relative', paddingTop: '24px' }}>
+      <div style={{ position: 'relative', gap: '24px', paddingTop: '24px' }}>
+        {/*first card*/}
         <div
+        className="education-card education-card-left"
           style={{
             backgroundColor: '#F5F5F2',
             border: '1px solid #050505',
-            padding: '28px',
-            transform: 'rotate(-1.5deg)',
+            padding: '32px',
             position: 'relative',
           }}
         >
@@ -505,7 +523,7 @@ function About() {
             }}
           />
           {/* Doodles */}
-          <div style={{ position: 'absolute', top: '-16px', right: '12px' }}>
+          <div style={{ position: 'absolute', top: '16px', right: '12px' }}>
             <GraduationCap color="#050505" size={28} />
           </div>
           <div style={{ position: 'absolute', bottom: '-12px', left: '24px' }}>
@@ -523,6 +541,47 @@ function About() {
           </p>
           <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', color: '#555555', letterSpacing: '0.08em' }}>
             2022 – 2026  |  CGPA: 8.93
+          </p>
+        </div>
+        {/*second card*/}
+        <div
+        className="education-card education-card-right"
+          style={{
+            backgroundColor: '#F5F5F2',
+            border: '1px solid #050505',
+            padding: '32px',
+            position: 'relative',
+          }}
+        >
+          {/* Stitching dots along left edge */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '-1px',
+              top: '8px',
+              bottom: '8px',
+              borderLeft: '2px dotted #B8B8B8',
+            }}
+          />
+          {/* Doodles */}
+          <div style={{ position: 'absolute', top: '16px', right: '12px' }}>
+            <GraduationCap color="#050505" size={28} />
+          </div>
+          <div style={{ position: 'absolute', bottom: '-12px', left: '24px' }}>
+            <OpenBook color="#050505" size={24} />
+          </div>
+
+          <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '0.2em', color: '#555555', marginBottom: '16px', borderBottom: '1px solid #B8B8B8', paddingBottom: '8px' }}>
+            EDUCATION
+          </div>
+          <p style={{ fontFamily: 'Archivo Black', fontSize: '14px', color: '#050505', lineHeight: 1.3, marginBottom: '10px', textTransform: 'uppercase' }}>
+            Higher Secondary Certificate
+          </p>
+          <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#050505', lineHeight: 1.6, marginBottom: '6px' }}>
+            Shri. Mohanlal Raughwani Sindhi Hindi Jr. College, Nagpur
+          </p>
+          <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', color: '#555555', letterSpacing: '0.08em' }}>
+            2020 – 2022  |  81%
           </p>
         </div>
       </div>
@@ -622,8 +681,10 @@ function Experience() {
             Willovate Private Limited
           </p>
           <p style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '460px' }}>
-            Built and integrated 10+ API endpoints across 4–5 product features using .NET Web APIs
-            and C#, and implemented responsive UI across 15+ pages.
+              "Built and integrated 10+ REST API endpoints across 4–5 product features using .NET and C#",
+              "Implemented responsive UI across 15+ pages and modal components using React.js and TanStack Query",
+              "Reviewed 20+ pull requests, flagging UI inconsistencies and logic issues before production",
+              "Managed data using PostgreSQL — wrote queries and ran migrations independently",
           </p>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {['.NET Web APIs', 'C#', 'React.js', 'REST APIs'].map((tag) => (
