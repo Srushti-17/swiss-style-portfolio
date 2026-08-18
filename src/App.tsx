@@ -3,6 +3,9 @@ import './index.css'
 import profile from './assets/hero section.jpeg'
 import resume from './assets/Srushti_Pillare_SDE.pdf'
 import profile2 from './assets/hero5.jpeg'
+import project1 from './assets/project1.png'
+import project2 from './assets/project2.png'
+import project3 from './assets/project3.png'
 
 // ── SVG Doodles ──────────────────────────────────────────────────────────────
 
@@ -181,6 +184,29 @@ const SpeechBubble = ({ color = '#F5F5F2', size = 32 }: { color?: string; size?:
     <line x1="9" y1="14" x2="18" y2="14" stroke={color} strokeWidth="1.5" strokeLinecap="round" opacity="0.5" />
   </svg>
 )
+
+const ExternalArrow = ({ color = '#F5F5F2', size = 28 }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 28 28"
+    fill="none"
+  >
+    <path
+      d="M8 20L20 8"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+    <path
+      d="M12 8H20V16"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
 
 // ── Navigation ────────────────────────────────────────────────────────────────
 
@@ -457,7 +483,7 @@ function About() {
       id="about"
       style={{
         backgroundColor: '#050505',
-        padding: '100px 7%',
+        padding: '150px 7%',
         display: 'grid',
         gridTemplateColumns: '1fr 360px',
         gap: '80px',
@@ -602,7 +628,7 @@ function Experience() {
       }}
     >
       {/* Left black column */}
-      <div style={{ backgroundColor: '#050505', padding: '80px 7% 80px 7%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ backgroundColor: '#050505', padding: '120px 7% 120px 7%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
           02 / EXPERIENCE
         </div>
@@ -635,21 +661,13 @@ function Experience() {
           </span>
           <CurvedArrow color="#B8B8B8" size={24} rotate={-10} />
         </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', borderTop: '1px solid #555555', paddingTop: '20px' }}>
-          {['01  PRODUCT DEVELOPMENT', '02  FRONTEND', '03  FULL-STACK'].map((item) => (
-            <span key={item} style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.1em', color: '#555555' }}>
-              {item}
-            </span>
-          ))}
-        </div>
       </div>
 
       {/* Right off-white column */}
-      <div style={{ backgroundColor: '#F5F5F2', padding: '80px 48px', position: 'relative' }}>
+      <div style={{ backgroundColor: '#F5F5F2', padding: '80px 48px', margin: '20px 20px',position: 'relative' }}>
         {/* Header row */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
           <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555' }}>EXPERIENCE LOG</span>
-          <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#B8B8B8' }}>PORTFOLIO / 2026</span>
         </div>
         <div style={{ height: '1px', backgroundColor: '#0A0A0A', marginBottom: '48px' }} />
 
@@ -672,22 +690,23 @@ function Experience() {
           />
 
           <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '0.12em', color: '#555555', marginBottom: '12px' }}>
-            DEC 2025 — PRESENT
+            DEC 2025 — JULY 2026
           </div>
           <h3 style={{ fontFamily: 'Archivo Black', fontSize: '22px', color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '-0.01em', marginBottom: '4px' }}>
             SOFTWARE DEVELOPMENT INTERN
           </h3>
-          <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '12px', color: '#555555', letterSpacing: '0.08em', marginBottom: '16px' }}>
+          <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '16px', color: '#050505', letterSpacing: '0.08em', marginBottom: '14px' }}>
             Willovate Private Limited
           </p>
-          <p style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '460px' }}>
-              "Built and integrated 10+ REST API endpoints across 4–5 product features using .NET and C#",
-              "Implemented responsive UI across 15+ pages and modal components using React.js and TanStack Query",
-              "Reviewed 20+ pull requests, flagging UI inconsistencies and logic issues before production",
-              "Managed data using PostgreSQL — wrote queries and ran migrations independently",
-          </p>
+          <li style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '760px' }}>
+              <li>Built and shipped real features on a production SaaS application from REST APIs to responsive frontend interfaces as part of a four-developer team at an early-stage startup.</li>
+              <li>Built and integrated 10+ REST API endpoints across 4–5 product features using .NET and C#.</li>
+              <li>Implemented responsive UI across 15+ pages and modal components using React.js and TanStack Query.</li>
+              <li>Reviewed 20+ pull requests, flagging UI inconsistencies and logic issues before production.</li>
+              <li>Managed data using PostgreSQL, wrote queries and ran migrations independently.</li>
+          </li>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {['.NET Web APIs', 'C#', 'React.js', 'REST APIs'].map((tag) => (
+            {['.NET Web APIs', 'C#', 'React.js', 'PostgreSQL', 'REST APIs', 'GitHub'].map((tag) => (
               <span
                 key={tag}
                 style={{
@@ -721,22 +740,29 @@ function Experience() {
 
 const skillData = [
   {
+    label: 'LANGUAGES',
+    doodle: <CursorArrow color="#0A0A0A" size={22} />,
+    large: ['C#', 'JavaScript', 'Typescript', 'Python']
+  },
+  {
     label: 'FRONTEND',
     doodle: <CursorArrow color="#0A0A0A" size={22} />,
-    large: ['React.js', 'Next.js', 'JavaScript'],
-    small: ['TypeScript', 'Tailwind CSS', 'HTML5', 'CSS3', 'TanStack Query'],
+    large: ['React.js', 'Next.js', 'JavaScript', 'Tailwind CSS', 'TanStack Query', 'HTML5', 'CSS3']
   },
   {
     label: 'BACKEND',
     doodle: <Gear color="#0A0A0A" size={22} />,
-    large: ['.NET Web APIs', 'C#', 'Node.js', 'REST APIs'],
-    small: ['Express.js', 'Python'],
+    large: ['.NET Web APIs', 'Node.js', 'Express.js', 'REST APIs']
+  },
+  {
+    label: 'DATABASES',
+    doodle: <DatabaseCylinder color="#0A0A0A" size={22} />,
+    large: ['SQL Server', 'PostgreSQL', 'MongoDB']
   },
   {
     label: 'TOOLS & DATA',
     doodle: <DatabaseCylinder color="#0A0A0A" size={22} />,
-    large: ['Git', 'GitHub'],
-    small: ['PostgreSQL', 'MongoDB', 'SQL Server', 'Postman', 'Swagger UI', 'GitHub Copilot'],
+    large: ['Git', 'GitHub', 'Postman', 'Swagger UI', 'GitHub Copilot']
   },
 ]
 
@@ -744,7 +770,7 @@ function Skills() {
   return (
     <section
       id="skills"
-      style={{ backgroundColor: '#F5F5F2', padding: '100px 7%', position: 'relative', overflow: 'hidden' }}
+      style={{ backgroundColor: '#F5F5F2', padding: '60px 7%', position: 'relative', overflow: 'hidden' }}
     >
       {/* Giant ghost numeral */}
       <div
@@ -774,7 +800,7 @@ function Skills() {
           letterSpacing: '-0.02em',
           color: '#0A0A0A',
           textTransform: 'uppercase',
-          marginBottom: '72px',
+          marginBottom: '50px',
         }}
       >
         THE TOOLS /
@@ -782,8 +808,8 @@ function Skills() {
         I THINK WITH.
       </h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '48px' }}>
-        {skillData.map(({ label, doodle, large, small }) => (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '30px' }}>
+        {skillData.map(({ label, doodle, large}) => (
           <div key={label}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
               {doodle}
@@ -795,9 +821,6 @@ function Skills() {
                 <span key={s} style={{ fontFamily: 'Archivo Black', fontSize: '20px', color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
                   {s}
                 </span>
-              ))}
-              {small.map((s) => (
-                <span key={s} style={{ fontFamily: 'Inter', fontSize: '14px', color: '#B8B8B8' }}>{s}</span>
               ))}
             </div>
           </div>
@@ -813,20 +836,30 @@ const projects = [
   {
     num: '01',
     name: 'DOCUMENT COLLABORATION APP',
-    desc: 'Real-time document collaboration app with AI summarization, translation, and a rich-text editor for teams.',
+    desc: `A full-stack collaborative document workspace supporting concurrent multi-user editing, backed by a rich-text 
+          engine and integrated LLM-powered tools for summarization, translation, and content improvement — built end-to-end 
+          from database schema to a responsive real-time frontend.`,
     tags: ['REACT.JS', 'NODE.JS', 'EXPRESS.JS', 'MONGODB'],
+    image: project1,
+    github: 'https://github.com/Srushti-17/Docolab',
   },
   {
     num: '02',
     name: 'MEDSAI',
-    desc: 'AI-driven drug discovery platform using CrewAI agents to analyze chemical compounds and predict effectiveness.',
+    desc: `An AI-driven drug discovery platform orchestrating a crew of autonomous agents (via CrewAI) to analyze chemical 
+          compound data and predict pharmacological effectiveness, paired with an interactive React frontend for exploring results.`,
     tags: ['REACT.JS', 'NODE.JS', 'CREWAI'],
+    image: project2,
+    github: 'https://github.com/Srushti-17/HackOn_CodeByte',
   },
   {
     num: '03',
     name: 'CODYCREW',
-    desc: 'AI system that reviews GitHub repositories for bugs, security issues, and testing gaps to speed up review workflows.',
+    desc: `An autonomous AI reviewer that scans GitHub repositories to flag bugs, security vulnerabilities, and missing test 
+          coverage — built to cut down manual code-review overhead and speed up the path to a mergeable PR.`,
     tags: ['PYTHON', 'GOOGLE ADK'],
+    image: project3,
+    github: 'https://github.com/Srushti-17/CodyCrew',
   },
 ]
 
@@ -863,12 +896,12 @@ function Work() {
       </h2>
 
       <div>
-        {projects.map(({ num, name, desc, tags }, i) => (
+        {projects.map(({ num, name, desc, tags, image, github }, i) => (
           <div key={num}>
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '80px 1fr',
+                gridTemplateColumns: '80px minmax(0, 760px) 420px',
                 gap: '32px',
                 padding: '36px 0',
                 cursor: 'default',
@@ -898,7 +931,7 @@ function Work() {
                 <p style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.7, color: '#B8B8B8', maxWidth: '600px', marginBottom: '16px' }}>
                   {desc}
                 </p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
                   {tags.map((tag) => (
                     <span
                       key={tag}
@@ -915,7 +948,47 @@ function Work() {
                     </span>
                   ))}
                 </div>
+                <a
+                  href={github}
+                  target='_blank'
+                  rel="noopener noreferrer"
+                  style={{
+                    display: 'inline-flex',
+                    fontFamily: 'IBM Plex Mono',
+                    fontSize: '12px',
+                    letterSpacing: '0.12em',
+                    color: '#F5F5F2',
+                    textDecoration: 'underline',
+                    textUnderlineOffset: '4px',
+                    alignItems: 'center',
+                  }}
+                >
+                  GITHUB
+                  <ExternalArrow color="#F5F5F2" size={16} />
+                </a>
               </div>
+              {/* PROJECT IMAGE */}
+              {image && (
+                <div
+                  style={{
+                    width: '100%',
+                    height: '230px',
+                    overflow: 'hidden',
+                    border: '1px solid #555555',
+                  }}
+                >
+                  <img
+                    src={image}
+                    alt={name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      display: 'block',
+                    }}
+                  />
+                </div>
+              )}
             </div>
             {i < projects.length - 1 && (
               <div style={{ height: '1px', backgroundColor: '#555555' }} />
@@ -939,8 +1012,8 @@ const achievements = [
   },
   {
     doodle: <Badge color="#F5F5F2" size={24} />,
-    title: 'CODELENS',
-    sub: 'Chrome Built-in AI Challenge',
+    title: 'KAGGLE CONTRIBUTOR',
+    sub: 'Notebooks spanning data analysis, AI agents, and competition entries.',
     year: '2025',
     rotate: '0deg',
   },
@@ -992,11 +1065,11 @@ function Recognition() {
             }}
           >
             {doodle}
-            <h4 style={{ fontFamily: 'Archivo Black', fontSize: '14px', color: '#F5F5F2', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
+            <h4 style={{ fontFamily: 'Archivo Black', fontSize: '16px', color: '#F5F5F2', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
               {title}
             </h4>
             <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#B8B8B8', lineHeight: 1.5 }}>{sub}</p>
-            <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.1em', color: '#555555' }}>{year}</span>
+            <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.1em', color: '#DBDBDB' }}>{year}</span>
           </div>
         ))}
       </div>
@@ -1041,6 +1114,7 @@ function Contact() {
           <a
             key={label}
             href={href}
+            target='_blank'
             style={{
               display: 'grid',
               gridTemplateColumns: '160px 1fr auto',
