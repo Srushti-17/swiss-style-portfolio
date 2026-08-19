@@ -31,6 +31,66 @@ body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
 }
+
+/* ── Mobile Menu Toggle ── */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  z-index: 1000;
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background-color: #F5F5F2;
+  margin: 6px 0;
+  transition: all 0.3s ease;
+}
+
+.mobile-menu-toggle.active span:nth-child(1) {
+  transform: rotate(45deg) translate(10px, 10px);
+}
+
+.mobile-menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.mobile-menu-toggle.active span:nth-child(3) {
+  transform: rotate(-45deg) translate(7px, -7px);
+}
+
+.mobile-menu {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background-color: rgba(5, 5, 5, 0.98);
+  border-bottom: 1px solid #555555;
+  flex-direction: column;
+  padding: 24px 16px;
+  gap: 16px;
+  z-index: 999;
+}
+
+.mobile-menu.active {
+  display: flex;
+}
+
+.mobile-menu a {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  color: #F5F5F2;
+  text-decoration: none;
+  padding: 8px 0;
+}
+
+/* ── Education Cards Mobile ── */
 .education-card {
   transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
@@ -50,6 +110,24 @@ body {
 
 .education-card-right:hover {
   transform: translateX(45px) translateY(-6px) rotate(0deg);
+}
+
+@media (max-width: 768px) {
+  .education-card-left {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  .education-card-left:hover {
+    transform: translateX(0) translateY(-4px) rotate(0deg);
+  }
+
+  .education-card-right {
+    transform: translateX(0) rotate(0deg);
+  }
+
+  .education-card-right:hover {
+    transform: translateX(0) translateY(-4px) rotate(0deg);
+  }
 }
 
 ::-webkit-scrollbar {
