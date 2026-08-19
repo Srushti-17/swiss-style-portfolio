@@ -212,65 +212,119 @@ const ExternalArrow = ({ color = '#F5F5F2', size = 28 }) => (
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const [menuOpen, setMenuOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768)
+      if (window.innerWidth >= 768) {
+        setMenuOpen(false)
+      }
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const handleLinkClick = () => {
+    setMenuOpen(false)
+  }
+
   return (
-    <nav
-      style={{
-        position: 'fixed',
-        top: 0,
-        left: 0,
-        right: 0,
-        zIndex: 100,
-        backgroundColor: scrolled ? 'rgba(5,5,5,0.95)' : 'transparent',
-        borderBottom: scrolled ? '1px solid #555555' : 'none',
-        transition: 'background-color 0.3s, border-bottom 0.3s',
-        padding: '0 7%',
-        height: '64px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <span style={{ fontFamily: 'IBM Plex Mono', fontWeight: 600, fontSize: '14px', letterSpacing: '0.08em', color: '#F5F5F2' }}>
-        SRUSHTI PILLARE
-      </span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '32px', marginRight: '350px', position: 'relative' }}>
-        {/* Curved arrow doodle pointing toward ABOUT — first link */}
-        <div style={{ position: 'absolute', left: '-36px', top: '-22px', opacity: 0.55, pointerEvents: 'none' }}>
-          <CurvedArrow color="#B8B8B8" size={32} rotate={20} />
+    <>
+      <nav
+        style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 100,
+          backgroundColor: scrolled ? 'rgba(5,5,5,0.95)' : 'transparent',
+          borderBottom: scrolled ? '1px solid #555555' : 'none',
+          transition: 'background-color 0.3s, border-bottom 0.3s',
+          padding: 'clamp(0px, 1vw, 16px) clamp(16px, 7%, 32px)',
+          height: '64px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <span style={{ fontFamily: 'IBM Plex Mono', fontWeight: 600, fontSize: 'clamp(11px, 2vw, 14px)', letterSpacing: '0.08em', color: '#F5F5F2' }}>
+          SRUSHTI PILLARE
+        </span>
+
+        {/* Desktop Navigation */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)', marginRight: 'clamp(0px, 5vw, 350px)', position: 'relative' }}>
+          <div style={{ position: 'absolute', left: '-36px', top: '-22px', opacity: 0.55, pointerEvents: 'none', display: !isMobile ? 'block' : 'none' }}>
+            <CurvedArrow color="#B8B8B8" size={32} rotate={20} />
+          </div>
+          {['ABOUT', 'EXPERIENCE', 'SKILLS', 'WORK', 'CONTACT'].map((item) => (
+            <a
+              key={item}
+              href={`#${item.toLowerCase()}`}
+              style={{
+                fontFamily: 'IBM Plex Mono',
+                fontSize: 'clamp(8px, 1.5vw, 11px)',
+                letterSpacing: '0.12em',
+                color: '#F5F5F2',
+                textDecoration: 'none',
+                transition: 'color 0.2s',
+                display: !isMobile ? 'block' : 'none',
+              }}
+              onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#F5F5F2')}
+              onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#F5F5F2')}
+            >
+              {item}
+            </a>
+          ))}
         </div>
+
+        {/* Mobile Menu Toggle */}
+        <button
+          className={`mobile-menu-toggle ${menuOpen ? 'active' : ''}`}
+          onClick={() => setMenuOpen(!menuOpen)}
+          style={{ display: isMobile ? 'flex' : 'none' }}
+          aria-label="Toggle navigation menu"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </nav>
+
+      {/* Mobile Menu */}
+      <div className={`mobile-menu ${menuOpen ? 'active' : ''}`} style={{ display: isMobile && menuOpen ? 'flex' : 'none' }}>
         {['ABOUT', 'EXPERIENCE', 'SKILLS', 'WORK', 'CONTACT'].map((item) => (
           <a
             key={item}
             href={`#${item.toLowerCase()}`}
-            style={{
-              fontFamily: 'IBM Plex Mono',
-              fontSize: '11px',
-              letterSpacing: '0.12em',
-              // color: '#B8B8B8',
-              color: '#F5F5F2',
-              textDecoration: 'none',
-              transition: 'color 0.2s',
-            }}
-            onMouseEnter={(e) => ((e.target as HTMLElement).style.color = '#F5F5F2')}
-            onMouseLeave={(e) => ((e.target as HTMLElement).style.color = '#F5F5F2')}
+            onClick={handleLinkClick}
           >
             {item}
           </a>
         ))}
       </div>
-    </nav>
+    </>
   )
 }
 
 // ── Hero Section ──────────────────────────────────────────────────────────────
 
 function Hero() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768)
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
   return (
     <section
       id="hero"
@@ -278,27 +332,11 @@ function Hero() {
         backgroundColor: '#050505',
         minHeight: '100vh',
         display: 'grid',
-        gridTemplateColumns: '1fr 420px',
+        gridTemplateColumns: !isMobile ? '1fr 420px' : '1fr',
         alignItems: 'stretch',
         position: 'relative',
       }}
     >
-      {/* Vol tag
-      <div
-        style={{
-          position: 'absolute',
-          top: '20px',
-          left: 'calc(7% + 48px)',
-          fontFamily: 'IBM Plex Mono',
-          fontSize: '10px',
-          letterSpacing: '0.15em',
-          color: '#555555',
-          zIndex: 2,
-        }}
-      >
-        VOL. 01 / 2026
-      </div> */}
-
       {/* Left vertical sidebar — lives outside the padded grid flow */}
       <div
         style={{
@@ -306,7 +344,7 @@ function Hero() {
           left: '16px',
           top: '50%',
           transform: 'translateY(-50%)',
-          display: 'flex',
+          display: window.innerWidth > 640 ? 'flex' : 'none',
           flexDirection: 'column',
           alignItems: 'center',
           gap: '16px',
@@ -363,21 +401,21 @@ function Hero() {
       </div>
 
       {/* Left content */}
-      <div style={{ padding: '140px 4% 80px calc(7% + 48px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ padding: !isMobile ? '140px 4% 80px calc(7% + 48px)' : 'clamp(100px, 15vw, 140px) clamp(16px, 5%, 32px) 60px clamp(16px, 5%, 32px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
-          <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#B8B8B8' }}>HELLO, I'M</span>
+          <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#B8B8B8' }}>HELLO, I'M</span>
           <div style={{ flex: 1, height: '1px', backgroundColor: '#555555' }} />
         </div>
 
         <h1
           style={{
             fontFamily: 'Archivo Black',
-            fontSize: 'clamp(48px, 6.5vw, 96px)',
+            fontSize: 'clamp(32px, 8vw, 96px)',
             lineHeight: 0.92,
             letterSpacing: '-0.02em',
             color: '#F5F5F2',
             textTransform: 'uppercase',
-            marginBottom: '36px',
+            marginBottom: '32px',
           }}
         >
           SOFTWARE
@@ -387,26 +425,28 @@ function Hero() {
           CREATIVE BUILDER
         </h1>
 
-        <p style={{ fontFamily: 'Inter', fontSize: '15px', lineHeight: 1.7, color: '#B8B8B8', maxWidth: '420px', marginBottom: '40px' }}>
+        <p style={{ fontFamily: 'Inter', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.7, color: '#B8B8B8', maxWidth: '420px', marginBottom: '32px' }}>
           I turn concepts into scalable, well-crafted software.
           <br />
           Full-stack developer with a taste for clean architecture and thoughtful UI.
         </p>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '16px', position: 'relative' }}>
+        <div style={{ display: 'flex', flexDirection: window.innerWidth > 480 ? 'row' : 'column', alignItems: 'flex-start', gap: '16px', position: 'relative', flexWrap: 'wrap' }}>
           <a
             href={resume}
             target='_blank'
             style={{
               fontFamily: 'IBM Plex Mono',
-              fontSize: '12px',
+              fontSize: '11px',
               letterSpacing: '0.12em',
               color: '#F5F5F2',
               border: '0.1px solid #F5F5F2',
-              padding: '2px 8px',
+              padding: '8px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
+              whiteSpace: 'nowrap',
+              textDecoration: 'none',
             }}
           >
             DOWNLOAD RESUME
@@ -415,7 +455,7 @@ function Hero() {
             href="#work"
             style={{
               fontFamily: 'IBM Plex Mono',
-              fontSize: '12px',
+              fontSize: '11px',
               letterSpacing: '0.12em',
               color: '#F5F5F2',
               textDecoration: 'underline',
@@ -427,24 +467,20 @@ function Hero() {
           >
             EXPLORE MY WORK →
           </a>
-          <div style={{ position: 'absolute', left: '-10px', bottom: '-50px' }}>
+          <div style={{ position: 'absolute', left: '-10px', bottom: window.innerWidth > 480 ? '-50px' : 'auto', top: window.innerWidth > 480 ? 'auto' : '100%', display: window.innerWidth > 640 ? 'block' : 'none' }}>
             <BrowserWindow color="#555555" size={36} />
           </div>
         </div>
       </div>
 
       {/* Right photo panel */}
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', backgroundColor: '#111111' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: !isMobile ? '100vh' : 'auto', order: isMobile ? -1 : 0 }}>
+        <div style={{ flex: !isMobile ? 1 : 0, position: 'relative', overflow: 'hidden', backgroundColor: '#111111', minHeight: isMobile ? '300px' : 'auto' }}>
           <img
-            // src="https://images.unsplash.com/photo-1527576539890-dfa815648363?w=600&h=700&fit=crop&auto=format&grayscale"
             src={profile}
             alt="Architectural structure, black and white"
             style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%) contrast(1.1)', display: 'block' }}
           />
-          {/* <div style={{ position: 'absolute', top: '16px', right: '16px' }}>
-            <Lightbulb color="#F5F5F2" size={32} />
-          </div> */}
         </div>
         <div
           style={{
@@ -483,22 +519,22 @@ function About() {
       id="about"
       style={{
         backgroundColor: '#050505',
-        padding: '150px 7%',
+        padding: window.innerWidth > 768 ? '150px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)',
         display: 'grid',
-        gridTemplateColumns: '1fr 360px',
-        gap: '80px',
+        gridTemplateColumns: window.innerWidth > 768 ? '1fr 360px' : '1fr',
+        gap: window.innerWidth > 768 ? '80px' : '48px',
         alignItems: 'start',
       }}
     >
       {/* Left */}
       <div>
-        <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
+        <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
           01 / ABOUT
         </div>
         <h2
           style={{
             fontFamily: 'Archivo Black',
-            fontSize: 'clamp(40px, 5vw, 72px)',
+            fontSize: 'clamp(32px, 7vw, 72px)',
             lineHeight: 0.95,
             letterSpacing: '-0.02em',
             color: '#F5F5F2',
@@ -510,16 +546,16 @@ function About() {
           <br />
           WHO I AM.
         </h2>
-        <p style={{ fontFamily: 'Inter', fontSize: '15px', lineHeight: 1.8, color: '#B8B8B8', maxWidth: '520px', marginBottom: '20px' }}>
+        <p style={{ fontFamily: 'Inter', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.8, color: '#B8B8B8', maxWidth: '520px', marginBottom: '20px' }}>
           I'm a software developer who genuinely enjoys the process of making things. Whether it's
           a clean API, an intuitive UI, or a pipeline that hums, I care about the craft behind every layer.
         </p>
-        <p style={{ fontFamily: 'Inter', fontSize: '15px', lineHeight: 1.8, color: '#B8B8B8', maxWidth: '520px', marginBottom: '36px' }}>
+        <p style={{ fontFamily: 'Inter', fontSize: 'clamp(13px, 2.5vw, 15px)', lineHeight: 1.8, color: '#B8B8B8', maxWidth: '520px', marginBottom: '36px' }}>
           Recently graduated from B.Tech in AI, I've been building real products alongside my studies—
           shipping features, debugging edge cases, and growing through every collaboration.
         </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-          <span style={{ fontFamily: 'Caveat', fontSize: '22px', color: '#B8B8B8', fontWeight: 600 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+          <span style={{ fontFamily: 'Caveat', fontSize: 'clamp(16px, 3vw, 22px)', color: '#B8B8B8', fontWeight: 600 }}>
             still learning, always building
           </span>
           <CurvedArrow color="#B8B8B8" size={28} rotate={10} />
@@ -527,14 +563,14 @@ function About() {
       </div>
 
       {/* Right — rotated index card */}
-      <div style={{ position: 'relative', gap: '24px', paddingTop: '24px' }}>
+      <div style={{ position: 'relative', gap: '24px', paddingTop: '24px', display: 'flex', flexDirection: 'column' }}>
         {/*first card*/}
         <div
         className="education-card education-card-left"
           style={{
             backgroundColor: '#F5F5F2',
             border: '1px solid #050505',
-            padding: '32px',
+            padding: 'clamp(20px, 4vw, 32px)',
             position: 'relative',
           }}
         >
@@ -549,20 +585,20 @@ function About() {
             }}
           />
           {/* Doodles */}
-          <div style={{ position: 'absolute', top: '16px', right: '12px' }}>
+          <div style={{ position: 'absolute', top: '16px', right: '12px', display: window.innerWidth > 640 ? 'block' : 'none' }}>
             <GraduationCap color="#050505" size={28} />
           </div>
-          <div style={{ position: 'absolute', bottom: '-12px', left: '24px' }}>
+          <div style={{ position: 'absolute', bottom: '-12px', left: '24px', display: window.innerWidth > 640 ? 'block' : 'none' }}>
             <OpenBook color="#050505" size={24} />
           </div>
 
           <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '0.2em', color: '#555555', marginBottom: '16px', borderBottom: '1px solid #B8B8B8', paddingBottom: '8px' }}>
             EDUCATION
           </div>
-          <p style={{ fontFamily: 'Archivo Black', fontSize: '14px', color: '#050505', lineHeight: 1.3, marginBottom: '10px', textTransform: 'uppercase' }}>
+          <p style={{ fontFamily: 'Archivo Black', fontSize: 'clamp(12px, 2vw, 14px)', color: '#050505', lineHeight: 1.3, marginBottom: '10px', textTransform: 'uppercase' }}>
             Bachelor of Technology in Artificial Intelligence
           </p>
-          <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#050505', lineHeight: 1.6, marginBottom: '6px' }}>
+          <p style={{ fontFamily: 'Inter', fontSize: 'clamp(11px, 2vw, 13px)', color: '#050505', lineHeight: 1.6, marginBottom: '6px' }}>
             J D College of Engineering &amp; Management, Nagpur
           </p>
           <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', color: '#555555', letterSpacing: '0.08em' }}>
@@ -575,7 +611,7 @@ function About() {
           style={{
             backgroundColor: '#F5F5F2',
             border: '1px solid #050505',
-            padding: '32px',
+            padding: 'clamp(20px, 4vw, 32px)',
             position: 'relative',
           }}
         >
@@ -590,20 +626,20 @@ function About() {
             }}
           />
           {/* Doodles */}
-          <div style={{ position: 'absolute', top: '16px', right: '12px' }}>
+          <div style={{ position: 'absolute', top: '16px', right: '12px', display: window.innerWidth > 640 ? 'block' : 'none' }}>
             <GraduationCap color="#050505" size={28} />
           </div>
-          <div style={{ position: 'absolute', bottom: '-12px', left: '24px' }}>
+          <div style={{ position: 'absolute', bottom: '-12px', left: '24px', display: window.innerWidth > 640 ? 'block' : 'none' }}>
             <OpenBook color="#050505" size={24} />
           </div>
 
           <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '0.2em', color: '#555555', marginBottom: '16px', borderBottom: '1px solid #B8B8B8', paddingBottom: '8px' }}>
             EDUCATION
           </div>
-          <p style={{ fontFamily: 'Archivo Black', fontSize: '14px', color: '#050505', lineHeight: 1.3, marginBottom: '10px', textTransform: 'uppercase' }}>
+          <p style={{ fontFamily: 'Archivo Black', fontSize: 'clamp(12px, 2vw, 14px)', color: '#050505', lineHeight: 1.3, marginBottom: '10px', textTransform: 'uppercase' }}>
             Higher Secondary Certificate
           </p>
-          <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#050505', lineHeight: 1.6, marginBottom: '6px' }}>
+          <p style={{ fontFamily: 'Inter', fontSize: 'clamp(11px, 2vw, 13px)', color: '#050505', lineHeight: 1.6, marginBottom: '6px' }}>
             Shri. Mohanlal Raughwani Sindhi Hindi Jr. College, Nagpur
           </p>
           <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', color: '#555555', letterSpacing: '0.08em' }}>
@@ -623,19 +659,19 @@ function Experience() {
       id="experience"
       style={{
         display: 'grid',
-        gridTemplateColumns: '38% 62%',
-        minHeight: '600px',
+        gridTemplateColumns: window.innerWidth > 768 ? '38% 62%' : '1fr',
+        minHeight: window.innerWidth > 768 ? '600px' : 'auto',
       }}
     >
       {/* Left black column */}
-      <div style={{ backgroundColor: '#050505', padding: '120px 7% 120px 7%', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
+      <div style={{ backgroundColor: '#050505', padding: window.innerWidth > 768 ? '120px 7% 120px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+        <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
           02 / EXPERIENCE
         </div>
         <h2
           style={{
             fontFamily: 'Archivo Black',
-            fontSize: 'clamp(36px, 4vw, 60px)',
+            fontSize: 'clamp(28px, 6vw, 60px)',
             lineHeight: 0.95,
             letterSpacing: '-0.02em',
             color: '#F5F5F2',
@@ -649,14 +685,14 @@ function Experience() {
           <br />
           TAUGHT ME.
         </h2>
-        <p style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.8, color: '#B8B8B8', marginBottom: '16px' }}>
+        <p style={{ fontFamily: 'Inter', fontSize: 'clamp(12px, 2vw, 14px)', lineHeight: 1.8, color: '#B8B8B8', marginBottom: '16px' }}>
           Each role has pushed me to build faster, think deeper, and ship with more confidence.
         </p>
-        <p style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.8, color: '#B8B8B8', marginBottom: '36px' }}>
+        <p style={{ fontFamily: 'Inter', fontSize: 'clamp(12px, 2vw, 14px)', lineHeight: 1.8, color: '#B8B8B8', marginBottom: '36px' }}>
           Real deadlines, real codebases, real accountability.
         </p>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px' }}>
-          <span style={{ fontFamily: 'Caveat', fontSize: '18px', color: '#B8B8B8', fontWeight: 600 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '32px', flexWrap: 'wrap' }}>
+          <span style={{ fontFamily: 'Caveat', fontSize: 'clamp(14px, 3vw, 18px)', color: '#B8B8B8', fontWeight: 600 }}>
             Every project leaves something behind.
           </span>
           <CurvedArrow color="#B8B8B8" size={24} rotate={-10} />
@@ -664,10 +700,10 @@ function Experience() {
       </div>
 
       {/* Right off-white column */}
-      <div style={{ backgroundColor: '#F5F5F2', padding: '80px 48px', margin: '20px 20px',position: 'relative' }}>
+      <div style={{ backgroundColor: '#F5F5F2', padding: window.innerWidth > 768 ? '80px 48px' : 'clamp(40px, 10vw, 80px) clamp(16px, 5%, 48px)', margin: window.innerWidth > 768 ? '20px 20px' : 0, position: 'relative' }}>
         {/* Header row */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
-          <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555' }}>EXPERIENCE LOG</span>
+          <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555' }}>EXPERIENCE LOG</span>
         </div>
         <div style={{ height: '1px', backgroundColor: '#0A0A0A', marginBottom: '48px' }} />
 
@@ -689,16 +725,16 @@ function Experience() {
             }}
           />
 
-          <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '0.12em', color: '#555555', marginBottom: '12px' }}>
+          <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 10px)', letterSpacing: '0.12em', color: '#555555', marginBottom: '12px' }}>
             DEC 2025 — JULY 2026
           </div>
-          <h3 style={{ fontFamily: 'Archivo Black', fontSize: '22px', color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '-0.01em', marginBottom: '4px' }}>
+          <h3 style={{ fontFamily: 'Archivo Black', fontSize: 'clamp(16px, 4vw, 22px)', color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '-0.01em', marginBottom: '4px' }}>
             SOFTWARE DEVELOPMENT INTERN
           </h3>
-          <p style={{ fontFamily: 'IBM Plex Mono', fontSize: '16px', color: '#050505', letterSpacing: '0.08em', marginBottom: '14px' }}>
+          <p style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(12px, 2vw, 16px)', color: '#050505', letterSpacing: '0.08em', marginBottom: '14px' }}>
             Willovate Private Limited
           </p>
-          <li style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '760px' }}>
+          <li style={{ fontFamily: 'Inter', fontSize: 'clamp(12px, 2vw, 14px)', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '760px' }}>
               <li>Built and shipped real features on a production SaaS application from REST APIs to responsive frontend interfaces as part of a four-developer team at an early-stage startup.</li>
               <li>Built and integrated 10+ REST API endpoints across 4–5 product features using .NET and C#.</li>
               <li>Implemented responsive UI across 15+ pages and modal components using React.js and TanStack Query.</li>
@@ -711,7 +747,7 @@ function Experience() {
                 key={tag}
                 style={{
                   fontFamily: 'IBM Plex Mono',
-                  fontSize: '10px',
+                  fontSize: 'clamp(8px, 1.5vw, 10px)',
                   letterSpacing: '0.1em',
                   color: '#0A0A0A',
                   border: '1px solid #0A0A0A',
@@ -725,10 +761,10 @@ function Experience() {
         </div>
 
         {/* Doodles */}
-        <div style={{ position: 'absolute', top: '16px', right: '24px' }}>
+        <div style={{ position: 'absolute', top: '16px', right: '24px', display: window.innerWidth > 640 ? 'block' : 'none' }}>
           <PaperPlane color="#B8B8B8" size={32} />
         </div>
-        <div style={{ position: 'absolute', bottom: '24px', left: '24px' }}>
+        <div style={{ position: 'absolute', bottom: '24px', left: '24px', display: window.innerWidth > 640 ? 'block' : 'none' }}>
           <Staircase color="#B8B8B8" size={32} />
         </div>
       </div>
@@ -770,16 +806,16 @@ function Skills() {
   return (
     <section
       id="skills"
-      style={{ backgroundColor: '#F5F5F2', padding: '60px 7%', position: 'relative', overflow: 'hidden' }}
+      style={{ backgroundColor: '#F5F5F2', padding: window.innerWidth > 768 ? '60px 7%' : 'clamp(40px, 10vw, 60px) clamp(16px, 5%, 32px)', position: 'relative', overflow: 'hidden' }}
     >
       {/* Giant ghost numeral */}
       <div
         style={{
           position: 'absolute',
           top: '-40px',
-          right: '5%',
+          right: window.innerWidth > 640 ? '5%' : '2%',
           fontFamily: 'Archivo Black',
-          fontSize: '280px',
+          fontSize: 'clamp(120px, 30vw, 280px)',
           color: 'rgba(0,0,0,0.04)',
           lineHeight: 1,
           userSelect: 'none',
@@ -789,13 +825,13 @@ function Skills() {
         03
       </div>
 
-      <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
+      <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
         03 / SKILLS
       </div>
       <h2
         style={{
           fontFamily: 'Archivo Black',
-          fontSize: 'clamp(40px, 5.5vw, 80px)',
+          fontSize: 'clamp(32px, 7vw, 80px)',
           lineHeight: 0.95,
           letterSpacing: '-0.02em',
           color: '#0A0A0A',
@@ -808,17 +844,17 @@ function Skills() {
         I THINK WITH.
       </h2>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '30px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth > 1024 ? 'repeat(3, 1fr)' : window.innerWidth > 640 ? 'repeat(2, 1fr)' : '1fr', gap: 'clamp(20px, 4vw, 30px)' }}>
         {skillData.map(({ label, doodle, large}) => (
           <div key={label}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
               {doodle}
-              <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555' }}>{label}</span>
+              <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555' }}>{label}</span>
             </div>
             <div style={{ height: '1px', backgroundColor: '#0A0A0A', marginBottom: '24px', width: '100%' }} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {large.map((s) => (
-                <span key={s} style={{ fontFamily: 'Archivo Black', fontSize: '20px', color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
+                <span key={s} style={{ fontFamily: 'Archivo Black', fontSize: 'clamp(16px, 3vw, 20px)', color: '#0A0A0A', textTransform: 'uppercase', letterSpacing: '-0.01em' }}>
                   {s}
                 </span>
               ))}
@@ -869,20 +905,20 @@ function Work() {
   return (
     <section
       id="work"
-      style={{ backgroundColor: '#050505', padding: '100px 7%', position: 'relative' }}
+      style={{ backgroundColor: '#050505', padding: window.innerWidth > 768 ? '100px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)', position: 'relative' }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
-        <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px', flexWrap: 'wrap' }}>
+        <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555' }}>
           04 / SELECTED WORK
         </div>
-        <div style={{ marginLeft: '8px', opacity: 0.6 }}>
+        <div style={{ marginLeft: '8px', opacity: 0.6, display: window.innerWidth > 640 ? 'block' : 'none' }}>
           <EyeOutline color="#555555" size={24} />
         </div>
       </div>
       <h2
         style={{
           fontFamily: 'Archivo Black',
-          fontSize: 'clamp(40px, 5.5vw, 80px)',
+          fontSize: 'clamp(32px, 7vw, 80px)',
           lineHeight: 0.95,
           letterSpacing: '-0.02em',
           color: '#F5F5F2',
@@ -901,25 +937,26 @@ function Work() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: '80px minmax(0, 760px) 420px',
-                gap: '32px',
-                padding: '36px 0',
+                gridTemplateColumns: window.innerWidth > 1024 ? '80px minmax(0, 760px) 420px' : window.innerWidth > 768 ? '60px 1fr 300px' : '1fr',
+                gap: window.innerWidth > 768 ? '32px' : '24px',
+                padding: window.innerWidth > 640 ? '36px 0' : '24px 0',
                 cursor: 'default',
                 transition: 'opacity 0.2s',
                 opacity: hoveredProject && hoveredProject !== num ? 0.4 : 1,
+                flexDirection: window.innerWidth > 768 ? 'row' : 'column',
               }}
               onMouseEnter={() => setHoveredProject(num)}
               onMouseLeave={() => setHoveredProject(null)}
             >
               <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', paddingTop: '4px' }}>
-                <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '14px', color: '#555555', letterSpacing: '0.08em' }}>{num}</span>
+                <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(12px, 2vw, 14px)', color: '#555555', letterSpacing: '0.08em' }}>{num}</span>
                 <DiagonalArrow color="#555555" size={18} />
               </div>
               <div>
                 <h3
                   style={{
                     fontFamily: 'Archivo Black',
-                    fontSize: '28px',
+                    fontSize: 'clamp(20px, 4vw, 28px)',
                     color: '#F5F5F2',
                     textTransform: 'uppercase',
                     letterSpacing: '-0.01em',
@@ -928,7 +965,7 @@ function Work() {
                 >
                   {name}
                 </h3>
-                <p style={{ fontFamily: 'Inter', fontSize: '14px', lineHeight: 1.7, color: '#B8B8B8', maxWidth: '600px', marginBottom: '16px' }}>
+                <p style={{ fontFamily: 'Inter', fontSize: 'clamp(12px, 2vw, 14px)', lineHeight: 1.7, color: '#B8B8B8', maxWidth: '600px', marginBottom: '16px' }}>
                   {desc}
                 </p>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '12px' }}>
@@ -937,7 +974,7 @@ function Work() {
                       key={tag}
                       style={{
                         fontFamily: 'IBM Plex Mono',
-                        fontSize: '10px',
+                        fontSize: 'clamp(8px, 1.5vw, 10px)',
                         letterSpacing: '0.1em',
                         color: '#F5F5F2',
                         border: '1px solid #555555',
@@ -955,7 +992,7 @@ function Work() {
                   style={{
                     display: 'inline-flex',
                     fontFamily: 'IBM Plex Mono',
-                    fontSize: '12px',
+                    fontSize: 'clamp(10px, 1.5vw, 12px)',
                     letterSpacing: '0.12em',
                     color: '#F5F5F2',
                     textDecoration: 'underline',
@@ -968,7 +1005,7 @@ function Work() {
                 </a>
               </div>
               {/* PROJECT IMAGE */}
-              {image && (
+              {image && window.innerWidth > 768 && (
                 <div
                   style={{
                     width: '100%',
@@ -990,6 +1027,29 @@ function Work() {
                 </div>
               )}
             </div>
+            {/* Mobile Image - show below on mobile */}
+            {image && window.innerWidth <= 768 && (
+              <div
+                style={{
+                  width: '100%',
+                  height: '200px',
+                  overflow: 'hidden',
+                  border: '1px solid #555555',
+                  marginBottom: '24px',
+                }}
+              >
+                <img
+                  src={image}
+                  alt={name}
+                  style={{
+                    width: '100%',
+                    height: '100%',
+                    objectFit: 'cover',
+                    display: 'block',
+                  }}
+                />
+              </div>
+            )}
             {i < projects.length - 1 && (
               <div style={{ height: '1px', backgroundColor: '#555555' }} />
             )}
@@ -1030,24 +1090,24 @@ function Recognition() {
   return (
     <section
       id="recognition"
-      style={{ backgroundColor: '#050505', padding: '80px 7%', position: 'relative', borderTop: '1px solid #111111' }}
+      style={{ backgroundColor: '#050505', padding: window.innerWidth > 768 ? '80px 7%' : 'clamp(60px, 15vw, 80px) clamp(16px, 5%, 32px)', position: 'relative', borderTop: '1px solid #111111' }}
     >
-      <div style={{ position: 'absolute', top: '40px', right: '12%', opacity: 0.15 }}>
+      <div style={{ position: 'absolute', top: '40px', right: window.innerWidth > 640 ? '12%' : '16px', opacity: 0.15, display: window.innerWidth > 768 ? 'block' : 'none' }}>
         <Starburst color="#F5F5F2" size={48} />
       </div>
 
-      <div style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555', marginBottom: '40px' }}>
+      <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555', marginBottom: '40px' }}>
         05 / RECOGNITION
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: window.innerWidth > 1024 ? 'repeat(3, 1fr)' : window.innerWidth > 640 ? 'repeat(2, 1fr)' : '1fr', gap: 'clamp(16px, 3vw, 24px)' }}>
         {achievements.map(({ doodle, title, sub, year, rotate }) => (
           <div
             key={title}
             style={{
               border: '1px dashed #555555',
-              padding: '28px',
-              transform: `rotate(${rotate})`,
+              padding: 'clamp(16px, 4vw, 28px)',
+              transform: window.innerWidth > 768 ? `rotate(${rotate})` : 'rotate(0deg)',
               display: 'flex',
               flexDirection: 'column',
               gap: '12px',
@@ -1061,14 +1121,14 @@ function Recognition() {
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
               el.style.borderColor = '#555555'
-              el.style.transform = `rotate(${rotate})`
+              el.style.transform = window.innerWidth > 768 ? `rotate(${rotate})` : 'rotate(0deg)'
             }}
           >
             {doodle}
-            <h4 style={{ fontFamily: 'Archivo Black', fontSize: '16px', color: '#F5F5F2', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
+            <h4 style={{ fontFamily: 'Archivo Black', fontSize: 'clamp(13px, 2.5vw, 16px)', color: '#F5F5F2', textTransform: 'uppercase', letterSpacing: '0.02em' }}>
               {title}
             </h4>
-            <p style={{ fontFamily: 'Inter', fontSize: '13px', color: '#B8B8B8', lineHeight: 1.5 }}>{sub}</p>
+            <p style={{ fontFamily: 'Inter', fontSize: 'clamp(11px, 2vw, 13px)', color: '#B8B8B8', lineHeight: 1.5 }}>{sub}</p>
             <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.1em', color: '#DBDBDB' }}>{year}</span>
           </div>
         ))}
@@ -1083,21 +1143,21 @@ function Contact() {
   return (
     <section
       id="contact"
-      style={{ backgroundColor: '#050505', padding: '120px 7% 100px', borderTop: '1px solid #111111', position: 'relative' }}
+      style={{ backgroundColor: '#050505', padding: window.innerWidth > 768 ? '120px 7% 100px' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)', borderTop: '1px solid #111111', position: 'relative' }}
     >
-      <div style={{ position: 'absolute', top: '36px', left: '7%', opacity: 0.5 }}>
+      <div style={{ position: 'absolute', top: '36px', left: window.innerWidth > 640 ? '7%' : '16px', opacity: 0.5, display: window.innerWidth > 768 ? 'block' : 'none' }}>
         <SpeechBubble color="#555555" size={28} />
       </div>
 
       <h2
         style={{
           fontFamily: 'Archivo Black',
-          fontSize: 'clamp(52px, 8vw, 120px)',
+          fontSize: 'clamp(36px, 10vw, 120px)',
           lineHeight: 0.92,
           letterSpacing: '-0.03em',
           color: '#F5F5F2',
           textTransform: 'uppercase',
-          marginBottom: '80px',
+          marginBottom: '60px',
         }}
       >
         LET'S BUILD
@@ -1116,32 +1176,33 @@ function Contact() {
             href={href}
             target='_blank'
             style={{
-              display: 'grid',
+              display: window.innerWidth > 768 ? 'grid' : 'flex',
               gridTemplateColumns: '160px 1fr auto',
-              alignItems: 'center',
-              gap: '24px',
-              padding: '28px 0',
+              flexDirection: 'column',
+              alignItems: window.innerWidth > 768 ? 'center' : 'flex-start',
+              gap: window.innerWidth > 768 ? '24px' : '8px',
+              padding: window.innerWidth > 768 ? '28px 0' : '20px 0',
               borderBottom: '1px solid #555555',
               textDecoration: 'none',
               transition: 'background-color 0.2s',
             }}
-            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = '#111111')}
+            onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = window.innerWidth > 768 ? '#111111' : 'transparent')}
             onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.backgroundColor = 'transparent')}
           >
-            <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.15em', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555', display: 'flex', alignItems: 'center', gap: '8px' }}>
               {doodle}
               {label}
             </span>
-            <span style={{ fontFamily: 'Inter', fontSize: '18px', color: '#F5F5F2' }}>{val}</span>
+            <span style={{ fontFamily: 'Inter', fontSize: 'clamp(14px, 3vw, 18px)', color: '#F5F5F2', wordBreak: 'break-all' }}>{val}</span>
             <DiagonalArrow color="#555555" size={20} />
           </a>
         ))}
       </div>
 
       {/* Caveat annotation */}
-      <div style={{ position: 'absolute', right: '7%', top: '240px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-        <CurvedArrow color="#B8B8B8" size={56} rotate={30} />
-        <span style={{ fontFamily: 'Caveat', fontSize: '36px', color: '#B8B8B8', fontWeight: 700, transform: 'rotate(-4deg)', display: 'inline-block' }}>
+      <div style={{ position: 'absolute', right: window.innerWidth > 640 ? '7%' : '16px', top: window.innerWidth > 768 ? '240px' : 'auto', bottom: window.innerWidth > 768 ? 'auto' : '100px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <CurvedArrow color="#B8B8B8" size={window.innerWidth > 640 ? 56 : 32} rotate={30} />
+        <span style={{ fontFamily: 'Caveat', fontSize: 'clamp(20px, 4vw, 36px)', color: '#B8B8B8', fontWeight: 700, transform: 'rotate(-4deg)', display: 'inline-block' }}>
           say hi
         </span>
       </div>
@@ -1157,35 +1218,38 @@ function Footer() {
       style={{
         backgroundColor: '#111111',
         borderTop: '1px solid #222222',
-        height: '80px',
-        padding: '0 7%',
+        minHeight: window.innerWidth > 768 ? '80px' : 'auto',
+        padding: window.innerWidth > 768 ? '0 7%' : 'clamp(16px, 4vw, 24px) clamp(16px, 5%, 32px)',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'space-between',
+        justifyContent: window.innerWidth > 768 ? 'space-between' : 'center',
+        flexDirection: window.innerWidth > 768 ? 'row' : 'column',
+        gap: window.innerWidth > 768 ? 0 : '16px',
+        textAlign: window.innerWidth > 768 ? 'left' : 'center',
       }}
     >
-      <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.1em', color: '#555555' }}>
+      <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.1em', color: '#555555', order: window.innerWidth > 768 ? 0 : 2 }}>
         SRUSHTI PILLARE
       </span>
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', order: window.innerWidth > 768 ? 0 : 1 }}>
         <a href="#hero" style={{ display: 'flex', alignItems: 'center' }}>
           <CurvedArrow color="#555555" size={20} rotate={180} />
         </a>
-        <div style={{ display: 'flex', gap: '20px' }}>
+        <div style={{ display: 'flex', gap: window.innerWidth > 640 ? '20px' : '12px', flexWrap: 'wrap', justifyContent: window.innerWidth > 768 ? 'flex-start' : 'center' }}>
           {['ABOUT', 'EXPERIENCE', 'SKILLS', 'WORK', 'CONTACT'].map((item, i, arr) => (
             <span key={item}>
               <a
                 href={`#${item.toLowerCase()}`}
-                style={{ fontFamily: 'IBM Plex Mono', fontSize: '10px', letterSpacing: '0.1em', color: '#555555', textDecoration: 'none' }}
+                style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(8px, 1.5vw, 10px)', letterSpacing: '0.1em', color: '#555555', textDecoration: 'none' }}
               >
                 {item}
               </a>
-              {i < arr.length - 1 && <span style={{ color: '#333333', marginLeft: '20px' }}>·</span>}
+              {i < arr.length - 1 && <span style={{ color: '#333333', marginLeft: window.innerWidth > 640 ? '20px' : '8px' }}>·</span>}
             </span>
           ))}
         </div>
       </div>
-      <span style={{ fontFamily: 'IBM Plex Mono', fontSize: '11px', letterSpacing: '0.08em', color: '#555555' }}>
+      <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 1.5vw, 11px)', letterSpacing: '0.08em', color: '#555555', order: window.innerWidth > 768 ? 0 : 3 }}>
         © 2026
       </span>
     </footer>
