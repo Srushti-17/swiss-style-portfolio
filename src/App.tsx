@@ -7,6 +7,18 @@ import project1 from './assets/project1.png'
 import project2 from './assets/project2.png'
 import project3 from './assets/project3.png'
 
+function useViewportWidth() {
+  const [width, setWidth] = useState(() => window.innerWidth)
+
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  return width
+}
+
 // ── SVG Doodles ──────────────────────────────────────────────────────────────
 
 const CurvedArrow = ({ color = '#F5F5F2', size = 40, rotate = 0 }: { color?: string; size?: number; rotate?: number }) => (
@@ -260,7 +272,7 @@ function Nav() {
         </span>
 
         {/* Desktop Navigation */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)', marginRight: 'clamp(0px, 5vw, 350px)', position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)', marginRight: 'clamp(0px, 400px, 500px)', position: 'relative' }}>
           <div style={{ position: 'absolute', left: '-36px', top: '-22px', opacity: 0.55, pointerEvents: 'none', display: !isMobile ? 'block' : 'none' }}>
             <CurvedArrow color="#B8B8B8" size={32} rotate={20} />
           </div>
@@ -330,10 +342,10 @@ function Hero() {
       id="hero"
       style={{
         backgroundColor: '#050505',
-        minHeight: '100vh',
+        minHeight: isMobile ? 'auto' : '100vh',
         display: 'grid',
-        gridTemplateColumns: !isMobile ? '1fr 420px' : '1fr',
-        alignItems: 'stretch',
+        gridTemplateColumns: !isMobile ? (window.innerWidth <= 1100 ? 'minmax(0, 1fr) 360px' : '1fr 420px') : '1fr',
+        alignItems: isMobile ? 'start' : 'stretch',
         position: 'relative',
       }}
     >
@@ -401,7 +413,7 @@ function Hero() {
       </div>
 
       {/* Left content */}
-      <div style={{ padding: !isMobile ? '140px 4% 80px calc(7% + 48px)' : 'clamp(100px, 15vw, 140px) clamp(16px, 5%, 32px) 60px clamp(16px, 5%, 32px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ padding: !isMobile ? (window.innerWidth <= 1100 ? '120px 32px 64px 7%' : '140px 4% 80px calc(7% + 48px)') : '96px clamp(16px, 5%, 32px) 56px', display: 'flex', flexDirection: 'column', justifyContent: 'center', minWidth: 0 }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '32px' }}>
           <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#B8B8B8' }}>HELLO, I'M</span>
           <div style={{ flex: 1, height: '1px', backgroundColor: '#555555' }} />
@@ -410,7 +422,7 @@ function Hero() {
         <h1
           style={{
             fontFamily: 'Archivo Black',
-            fontSize: 'clamp(32px, 8vw, 96px)',
+            fontSize: !isMobile && window.innerWidth <= 1100 ? 'clamp(42px, 6vw, 72px)' : 'clamp(32px, 8vw, 96px)',
             lineHeight: 0.92,
             letterSpacing: '-0.02em',
             color: '#F5F5F2',
@@ -441,7 +453,7 @@ function Hero() {
               letterSpacing: '0.12em',
               color: '#F5F5F2',
               border: '0.1px solid #F5F5F2',
-              padding: '8px',
+              padding: '2px 8px',
               display: 'flex',
               alignItems: 'center',
               gap: '8px',
@@ -474,12 +486,12 @@ function Hero() {
       </div>
 
       {/* Right photo panel */}
-      <div style={{ display: 'flex', flexDirection: 'column', height: !isMobile ? '100vh' : 'auto', order: isMobile ? -1 : 0 }}>
-        <div style={{ flex: !isMobile ? 1 : 0, position: 'relative', overflow: 'hidden', backgroundColor: '#111111', minHeight: isMobile ? '300px' : 'auto' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', height: !isMobile ? '100vh' : 'fit-content', order: 0, alignSelf: 'start', minHeight: 0, width: '100%' }}>
+        <div style={{ flex: !isMobile ? 1 : 'none', position: 'relative', overflow: 'hidden', backgroundColor: '#111111', height: isMobile ? '280px' : 'auto' }}>
           <img
             src={profile}
-            alt="Architectural structure, black and white"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%) contrast(1.1)', display: 'block' }}
+            alt="profile photo"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', filter: 'grayscale(100%) contrast(1.1)', display: 'block' }}
           />
         </div>
         <div
@@ -519,10 +531,10 @@ function About() {
       id="about"
       style={{
         backgroundColor: '#050505',
-        padding: window.innerWidth > 768 ? '150px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)',
+        padding: window.innerWidth > 1100 ? '150px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)',
         display: 'grid',
-        gridTemplateColumns: window.innerWidth > 768 ? '1fr 360px' : '1fr',
-        gap: window.innerWidth > 768 ? '80px' : '48px',
+        gridTemplateColumns: window.innerWidth > 1100 ? '1fr 360px' : '1fr',
+        gap: window.innerWidth > 1100 ? '80px' : '48px',
         alignItems: 'start',
       }}
     >
@@ -659,12 +671,12 @@ function Experience() {
       id="experience"
       style={{
         display: 'grid',
-        gridTemplateColumns: window.innerWidth > 768 ? '38% 62%' : '1fr',
-        minHeight: window.innerWidth > 768 ? '600px' : 'auto',
+        gridTemplateColumns: window.innerWidth > 1100 ? '38% 62%' : '1fr',
+        minHeight: window.innerWidth > 1100 ? '600px' : 'auto',
       }}
     >
       {/* Left black column */}
-      <div style={{ backgroundColor: '#050505', padding: window.innerWidth > 768 ? '120px 7% 120px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ backgroundColor: '#050505', padding: window.innerWidth > 1100 ? '120px 7% 120px 7%' : 'clamp(60px, 15vw, 100px) clamp(16px, 5%, 32px)', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555', marginBottom: '24px' }}>
           02 / EXPERIENCE
         </div>
@@ -700,7 +712,7 @@ function Experience() {
       </div>
 
       {/* Right off-white column */}
-      <div style={{ backgroundColor: '#F5F5F2', padding: window.innerWidth > 768 ? '80px 48px' : 'clamp(40px, 10vw, 80px) clamp(16px, 5%, 48px)', margin: window.innerWidth > 768 ? '20px 20px' : 0, position: 'relative' }}>
+      <div style={{ backgroundColor: '#F5F5F2', padding: window.innerWidth > 1100 ? '80px 48px' : 'clamp(40px, 10vw, 80px) clamp(16px, 5%, 48px)', margin: window.innerWidth > 1100 ? '20px 20px' : 0, position: 'relative' }}>
         {/* Header row */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '8px' }}>
           <span style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(9px, 2vw, 11px)', letterSpacing: '0.15em', color: '#555555' }}>EXPERIENCE LOG</span>
@@ -937,7 +949,7 @@ function Work() {
             <div
               style={{
                 display: 'grid',
-                gridTemplateColumns: window.innerWidth > 1024 ? '80px minmax(0, 760px) 420px' : window.innerWidth > 768 ? '60px 1fr 300px' : '1fr',
+                gridTemplateColumns: window.innerWidth > 1100 ? '80px minmax(0, 760px) 420px' : window.innerWidth > 768 ? '60px minmax(0, 1fr)' : '1fr',
                 gap: window.innerWidth > 768 ? '32px' : '24px',
                 padding: window.innerWidth > 640 ? '36px 0' : '24px 0',
                 cursor: 'default',
@@ -1005,7 +1017,7 @@ function Work() {
                 </a>
               </div>
               {/* PROJECT IMAGE */}
-              {image && window.innerWidth > 768 && (
+              {image && window.innerWidth > 1100 && (
                 <div
                   style={{
                     width: '100%',
@@ -1028,7 +1040,7 @@ function Work() {
               )}
             </div>
             {/* Mobile Image - show below on mobile */}
-            {image && window.innerWidth <= 768 && (
+            {image && window.innerWidth <= 1100 && (
               <div
                 style={{
                   width: '100%',
@@ -1259,6 +1271,8 @@ function Footer() {
 // ── App ───────────────────────────────────────────────────────────────────────
 
 export default function App() {
+  useViewportWidth()
+
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh' }}>
       <Nav />
