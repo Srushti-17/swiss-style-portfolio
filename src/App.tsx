@@ -272,7 +272,7 @@ function Nav() {
         </span>
 
         {/* Desktop Navigation */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)', marginRight: 'clamp(0px, 400px, 500px)', position: 'relative' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 3vw, 32px)', transform: !isMobile ? 'translateX(-400px)' : 'none', position: 'relative' }}>
           <div style={{ position: 'absolute', left: '-36px', top: '-22px', opacity: 0.55, pointerEvents: 'none', display: !isMobile ? 'block' : 'none' }}>
             <CurvedArrow color="#B8B8B8" size={32} rotate={20} />
           </div>
