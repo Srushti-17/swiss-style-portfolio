@@ -1,8 +1,8 @@
 import { useState, useEffect, useRef } from 'react'
 import './index.css'
-import profile from './assets/hero section.jpeg'
+import profile from './assets/profile.jpeg'
+import profile2 from './assets/profile2.jpeg'
 import resume from './assets/Srushti_Pillare_SDE.pdf'
-import profile2 from './assets/hero5.jpeg'
 import project1 from './assets/project1.png'
 import project2 from './assets/project2.png'
 import project3 from './assets/project3.png'
@@ -519,9 +519,9 @@ function Hero() {
       <div style={{ display: 'flex', flexDirection: 'column', height: !isMobile ? '100vh' : 'fit-content', order: 0, alignSelf: 'start', minHeight: 0, width: '100%' }}>
         <div style={{ flex: !isMobile ? 1 : 'none', position: 'relative', overflow: 'hidden', backgroundColor: '#111111', height: isMobile ? '280px' : 'auto' }}>
           <img
-            src={profile}
+            src={profile2}
             alt="profile photo"
-            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center center', filter: 'grayscale(100%) contrast(1.1)', display: 'block' }}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center 30%', filter: 'grayscale(100%) contrast(1.1)', display: 'block' }}
           />
         </div>
         <div
@@ -536,8 +536,8 @@ function Hero() {
           </p>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
             {[
-              { label: 'BASED IN —', val: 'NAGPUR, INDIA' },
-              { label: 'AVAILABLE FOR —', val: 'OPPORTUNITIES' },
+              { label: 'FOCUS —', val: 'FULL-STACK & AI' },
+              { label: 'DRIVEN BY —', val: 'CLEAN, THOUGHTFUL CODE' },
             ].map(({ label, val }) => (
               <div key={label} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
                 <Asterisk color="#050505" size={12} />
