@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './index.css'
 import profile from './assets/hero section.jpeg'
 import resume from './assets/Srushti_Pillare_SDE.pdf'
@@ -17,6 +17,35 @@ function useViewportWidth() {
   }, [])
 
   return width
+}
+
+function Reveal({ children, delay = 0, className = '' }: { children: React.ReactNode; delay?: number; className?: string }) {
+  const [visible, setVisible] = useState(false)
+  const elementRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const element = elementRef.current
+    if (!element) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.unobserve(element)
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -40px' },
+    )
+
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div ref={elementRef} className={`reveal ${visible ? 'reveal-visible' : ''} ${className}`} style={{ transitionDelay: `${delay}ms` }}>
+      {children}
+    </div>
+  )
 }
 
 // ── SVG Doodles ──────────────────────────────────────────────────────────────
@@ -251,6 +280,7 @@ function Nav() {
   return (
     <>
       <nav
+        className="nav-entrance"
         style={{
           position: 'fixed',
           top: 0,
@@ -1276,14 +1306,14 @@ export default function App() {
   return (
     <div style={{ backgroundColor: '#050505', minHeight: '100vh' }}>
       <Nav />
-      <Hero />
-      <About />
-      <Experience />
-      <Skills />
-      <Work />
-      <Recognition />
-      <Contact />
-      <Footer />
+      <Reveal><Hero /></Reveal>
+      <Reveal delay={80}><About /></Reveal>
+      <Reveal delay={80}><Experience /></Reveal>
+      <Reveal><Skills /></Reveal>
+      <Reveal delay={80}><Work /></Reveal>
+      <Reveal><Recognition /></Reveal>
+      <Reveal delay={80}><Contact /></Reveal>
+      <Reveal><Footer /></Reveal>
     </div>
   )
 }
