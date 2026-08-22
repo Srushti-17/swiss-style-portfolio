@@ -249,6 +249,84 @@ const ExternalArrow = ({ color = '#F5F5F2', size = 28 }) => (
   </svg>
 );
 
+const CodeBrackets = ({ color = '#050505', size = 32 }: { color?: string; size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <path
+      d="M11 7 L4 16 L11 25"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <path
+      d="M21 7 L28 16 L21 25"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+    <line
+      x1="18"
+      y1="5"
+      x2="14"
+      y2="27"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
+const Toolbox = ({ color = '#050505', size = 32 }: { color?: string; size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 32 32" fill="none">
+    <rect
+      x="4"
+      y="10"
+      width="24"
+      height="17"
+      rx="1"
+      stroke={color}
+      strokeWidth="2"
+    />
+
+    <path
+      d="M11 10 V7 Q11 5 13 5 H19 Q21 5 21 7 V10"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+
+    <line
+      x1="4"
+      y1="16"
+      x2="28"
+      y2="16"
+      stroke={color}
+      strokeWidth="2"
+    />
+
+    <line
+      x1="13"
+      y1="16"
+      x2="13"
+      y2="20"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+
+    <line
+      x1="19"
+      y1="16"
+      x2="19"
+      y2="20"
+      stroke={color}
+      strokeWidth="2"
+      strokeLinecap="round"
+    />
+  </svg>
+)
+
 // ── Navigation ────────────────────────────────────────────────────────────────
 
 function Nav() {
@@ -396,9 +474,9 @@ function Hero() {
         <span
           style={{
             fontFamily: 'IBM Plex Mono',
-            fontSize: '9px',
+            fontSize: '12px',
             letterSpacing: '0.2em',
-            color: '#555555',
+            color: '#868686',
             whiteSpace: 'nowrap',
             writingMode: 'vertical-rl',
             transform: 'rotate(180deg)',
@@ -406,7 +484,7 @@ function Hero() {
         >
           LET'S CONNECT
         </span>
-        <div style={{ width: '1px', height: '32px', backgroundColor: '#555555' }} />
+        <div style={{ width: '1px', height: '32px', backgroundColor: '#868686' }} />
         {[
           { label: 'GH', href: 'https://github.com/Srushti-17' },
           { label: 'LI', href: 'https://linkedin.com/in/srushti-pillare' },
@@ -419,9 +497,9 @@ function Hero() {
             style={{
               fontFamily: 'IBM Plex Mono',
               fontSize: '9px',
-              color: '#555555',
+              color: '#868686',
               textDecoration: 'none',
-              border: '1px solid #555555',
+              border: '1px solid #868686',
               padding: '4px 5px',
               lineHeight: 1,
               transition: 'color 0.2s, border-color 0.2s',
@@ -433,8 +511,8 @@ function Hero() {
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLElement
-              el.style.color = '#555555'
-              el.style.borderColor = '#555555'
+              el.style.color = '#868686'
+              el.style.borderColor = '#868686'
             }}
           >
             {label}
@@ -476,7 +554,8 @@ function Hero() {
         <div style={{ display: 'flex', flexDirection: window.innerWidth > 480 ? 'row' : 'column', alignItems: 'flex-start', gap: '16px', position: 'relative', flexWrap: 'wrap' }}>
           <a
             href={resume}
-            target='_blank'
+            target= {!isMobile ? '_blank' : '_self'}
+            download={isMobile ? "Srushti-Pillare-Resume.pdf" : undefined}
             style={{
               fontFamily: 'IBM Plex Mono',
               fontSize: '11px',
@@ -491,7 +570,7 @@ function Hero() {
               textDecoration: 'none',
             }}
           >
-            DOWNLOAD RESUME
+            VIEW RESUME
           </a>
           <a
             href="#work"
@@ -776,15 +855,19 @@ function Experience() {
           <p style={{ fontFamily: 'IBM Plex Mono', fontSize: 'clamp(12px, 2vw, 16px)', color: '#050505', letterSpacing: '0.08em', marginBottom: '14px' }}>
             Willovate Private Limited
           </p>
-          <li style={{ fontFamily: 'Inter', fontSize: 'clamp(12px, 2vw, 14px)', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '760px' }}>
-              <li>Built and shipped real features on a production SaaS application from REST APIs to responsive frontend interfaces as part of a four-developer team at an early-stage startup.</li>
-              <li>Built and integrated 10+ REST API endpoints across 4–5 product features using .NET and C#.</li>
-              <li>Implemented responsive UI across 15+ pages and modal components using React.js and TanStack Query.</li>
-              <li>Reviewed 20+ pull requests, flagging UI inconsistencies and logic issues before production.</li>
-              <li>Managed data using PostgreSQL, wrote queries and ran migrations independently.</li>
+          <li style={{ fontFamily: 'Inter', fontSize: 'clamp(12px, 2vw, 14px)', lineHeight: 1.7, color: '#333333', marginBottom: '20px', maxWidth: '800px' }}>
+              <li>Implemented responsive layouts across 15+ pages using Tailwind's breakpoint utility classes, resolved UI defects 
+                  including a broken modal overlay, and eliminated redundant API calls via TanStack Query's conditional fetching and 
+                  background re-fetching. </li>
+              <li>Designed and integrated 10+ ASP.NET Web API endpoints with authorization checks and DTOs built from scratch, 
+                  implementing complete data flows and business logic for 4 to 5 product features on a production SaaS platform. </li>
+              <li>Conducted code reviews on 20+ pull requests, catching inconsistent component structure, duplicate components, 
+                  conflicting app-level routes, and missing database migrations before they reached production.</li>
+              <li>Coordinated sprint planning and progress tracking across a four-developer team through daily standups and a sprint-management tool, aligning priorities to 
+                  keep feature delivery on schedule.</li>
           </li>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {['.NET Web APIs', 'C#', 'React.js', 'PostgreSQL', 'REST APIs', 'GitHub'].map((tag) => (
+            {['.NET Web APIs', 'C#', 'React.js',  'PostgreSQL', 'TanStack Query', 'Swagger UI', 'REST APIs', 'GitHub'].map((tag) => (
               <span
                 key={tag}
                 style={{
@@ -819,18 +902,18 @@ function Experience() {
 const skillData = [
   {
     label: 'LANGUAGES',
-    doodle: <CursorArrow color="#0A0A0A" size={22} />,
+    doodle: <CodeBrackets color="#0A0A0A" size={22} />,
     large: ['C#', 'JavaScript', 'Typescript', 'Python']
   },
   {
     label: 'FRONTEND',
     doodle: <CursorArrow color="#0A0A0A" size={22} />,
-    large: ['React.js', 'Next.js', 'JavaScript', 'Tailwind CSS', 'TanStack Query', 'HTML5', 'CSS3']
+    large: ['React.js', 'Next.js', 'Tailwind CSS', 'TanStack Query', 'HTML5', 'CSS3']
   },
   {
     label: 'BACKEND',
     doodle: <Gear color="#0A0A0A" size={22} />,
-    large: ['.NET Web APIs', 'Node.js', 'Express.js', 'REST APIs']
+    large: ['ASP .NET', '.NET Web APIs', 'Node.js', 'Express.js', 'REST APIs']
   },
   {
     label: 'DATABASES',
@@ -838,8 +921,8 @@ const skillData = [
     large: ['SQL Server', 'PostgreSQL', 'MongoDB']
   },
   {
-    label: 'TOOLS & DATA',
-    doodle: <DatabaseCylinder color="#0A0A0A" size={22} />,
+    label: 'TOOLS & OTHER',
+    doodle: <Toolbox color="#0A0A0A" size={22} />,
     large: ['Git', 'GitHub', 'Postman', 'Swagger UI', 'GitHub Copilot']
   },
 ]
